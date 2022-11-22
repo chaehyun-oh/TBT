@@ -190,13 +190,11 @@
           <input type="hidden" class="mount_per_pdt" name="mount_per_pdt" value='1'>
           {% comment %} 수량=0일 때, 모달창 뜨게 {% endcomment %}
           <!-- Button trigger modal -->
-          <button type='button' class="buy-btn buy-btn-modal" data-bs-toggle="modal"
-            data-bs-target="#buyModal">
+          <button type='button' class="buy-btn buy-btn-modal" data-bs-toggle="modal" data-bs-target="#buyModal">
             바로구매
           </button>
           <!-- Modal -->
-          <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel"
-            aria-hidden="true">
+          <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -244,6 +242,7 @@
         {% comment %} 상품정보 {% endcomment %}
         <article id='pdt-info'>
           <h3>상품정보</h3>
+          <p class='pdt-description-text'>{{ product.Description1 }}</p>
           <img src="{{ product.Description2.url }}" alt="">
         </article>
         {% comment %} 리뷰 {% endcomment %}
@@ -379,7 +378,7 @@
                     {{review.content}}
                   </p>
                   {% if review.review_image %}
-                  <img src="{{ review.thumbnail.url }}" alt="{{review.review_image}}" class="rev-img">
+                  {% comment %} <img src="{{ review.thumbnail.url }}" alt="{{review.review_image}}" class="rev-img"> {% endcomment %}
                   <div class="overlayC2 hidden">
                     <button class="btn-close btn-close-img">
                       <i class="bi bi-x-lg"></i>
@@ -410,7 +409,7 @@
             {% endfor %}
             {% else %}
             <div class="rev-sec">
-              <p>아직 작성된 리뷰가 없어요 :(</p>
+              <p class="rev-empt">아직 작성된 리뷰가 없어요 :(</p>
             </div>
             {% endif %}
           </div>
@@ -441,8 +440,8 @@
                 </p>
                 {% if request.user.is_authenticated and request.user.pk == question.account.pk %}
                 <div class="qna-btn">
-                  <!-- <a href="{% url 'bulletin:update' question.pk %}" class="btn-modal-update-qna"
-                    data-cnt="{{ forloop.counter}}">수정</a> -->
+                  <a href="{% url 'bulletin:updateA' question.pk %}" class="btn-modal-update-qna"
+                    data-cnt="{{ forloop.counter}}">수정</a>
                   <a href="{% url 'bulletin:deleteQ' question.pk %}" class="btn-modal-delete-qna">삭제</a>
                 </div>
                 {% endif %}
@@ -510,7 +509,31 @@
           <a class="btn btn-primary" href="{% url 'products:products_update' product.pk %}">상품 정보 수정</a>
           <form class="btn btn-danger" action="{% url 'products:products_delete' product.pk  %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="상품 삭제">
+            <!-- 상품 삭제 Button trigger modal -->
+            <button type="button" class="m-0 p-0" data-bs-toggle="modal" data-bs-target="#pdtDelete">
+              상품 삭제
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="pdtDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-dark" id="exampleModalLabel">
+                      상품을 정말 삭제하시겠습니까?
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class='text-dark'>상품을 삭제하면 관련 리뷰, 문의 모두 사라집니다.</p>
+                    <p class='text-dark'>정말로 삭제하시겠습니까?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-danger">삭제</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
           {% endif %}
         </article>
@@ -555,13 +578,11 @@
             <input type="hidden" class="mount_per_pdt" name="mount_per_pdt" value='1'>
             {% comment %} 수량=0일 때, 모달창 뜨게 {% endcomment %}
             <!-- Button trigger modal -->
-            <button type='button' class="buy-btn buy-btn-modal" data-bs-toggle="modal"
-              data-bs-target="#buyModal">
+            <button type='button' class="buy-btn buy-btn-modal" data-bs-toggle="modal" data-bs-target="#buyModal">
               바로구매
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel"
-              aria-hidden="true">
+            <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
